@@ -1,6 +1,11 @@
 # Shell Scrips for starting up Minikube with Serverless Frameworks
 
-## Knative
+In order for the scripts to work make sure to have 
+- a hypervisor installed (for example [virtualbox](https://www.virtualbox.org/wiki/Downloads)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos) installed
+- [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube) installed
+
+## Knative with Gloo
 
 Start up a Knative Cluster with Gloo by passing your desired hypervisor driver
 

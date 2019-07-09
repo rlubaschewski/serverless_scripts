@@ -29,7 +29,7 @@ install() {
   print_with_color "use 'kubectl get pods --namespace knative-serving --watch' and 'kubectl get pods --namespace knative-monitoring --watch'"
 }
 
-install();
+install;
 
 
 
