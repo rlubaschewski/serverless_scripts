@@ -5,13 +5,18 @@ print_with_color() {
 }
 
 install() {
+    print_with_color "Setting up Minikube...";
     minikube start --vm-driver=$1
+    print_with_color "Installing the OpenFaaS CLI...";
     brew install faas-cli;
+    print_with_color "Installing the helm CLI/client..."
     brew install kubernetes-helm;
+    print_with_color "Installing tiller...";
     kubectl -n kube-system create sa tiller \
     && kubectl create clusterrolebinding tiller \
     --clusterrole cluster-admin \
     --serviceaccount=kube-system:tiller;
+    print_with_color "Installing the server-side Tiller component on your cluster...";
     helm init --skip-refresh --upgrade --service-account tiller;
     print_with_color "create namespace for OpenFaaS core services and for the Functions...";
     kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml;

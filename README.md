@@ -11,7 +11,7 @@ Start up a Cluster with Knative using Gloo by passing your desired hypervisor dr
 
 Example:
 ```shell
-sh knative.sh virtualbox
+sh knative.sh "virtualbox"
 ```
 
 See a list of the available drivers [here](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver)
@@ -22,5 +22,5 @@ Start up a Cluster with OpenFaaS by passing your desired hypervisor driver
 
 Example:
 ```shell
-sh openfaas.sh virtualbox
+sh openfaas.sh "virtualbox"
 ```
