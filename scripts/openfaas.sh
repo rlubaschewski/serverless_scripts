@@ -48,8 +48,8 @@ install() {
     print_with_color "Generate secrets so that we can enable basic authentication for the gateway..."
     PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
     OPENFAAS_URL="$(minikube ip):31112";
-    echo "export PASSWORD=$PASSWORD" >> output/openfaas.txt;
-    echo "export OPENFAAS_URL=$OPENFAAS_URL" >> output/openfaas.txt;
+    echo "export PASSWORD=$PASSWORD" >> ../output/openfaas.txt;
+    echo "export OPENFAAS_URL=$OPENFAAS_URL" >> ../output/openfaas.txt;
     kubectl -n openfaas create secret generic basic-auth \
     --from-literal=basic-auth-user=admin \
     --from-literal=basic-auth-password="$PASSWORD"
@@ -72,7 +72,7 @@ install() {
     kubectl -n openfaas expose deployment grafana \
         --type=NodePort \
         --name=grafana
-    echo "export OPENFAAS_GRAFANA_URL=$(kubectl -n openfaas get svc grafana -o jsonpath="{.spec.ports[0].nodePort}")" >> output/openfaas.txt;
+    echo "export OPENFAAS_GRAFANA_URL=$(kubectl -n openfaas get svc grafana -o jsonpath="{.spec.ports[0].nodePort}")" >> ../output/openfaas.txt;
     print_with_color "OpenFaaS was successfully installed!";
     print_with_color "Add Environment Variables with:";
     print_with_color "source output/openfaas.txt";

@@ -51,7 +51,7 @@ install() {
   print_with_color "Installing the Knative CLI...";
   install_cli;
   print_with_color "Setting up Minikube...";
-  minikube start --memory=8192 --cpus=4 --vm-driver=$vm_driver -p knative_gloo --extra-config=apiserver.enable-admission-plugins="MutatingAdmissionWebhook";
+  minikube start --memory=8192 --cpus=4 --vm-driver=$vm_driver -p knative_gloo   --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
   print_with_color "Installing Gloo...";
   curl -sL https://run.solo.io/gloo/install | sh;
   print_with_color "Setting knative to the desired minikube profile...";
