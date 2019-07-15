@@ -14,13 +14,12 @@ wait_for_pod() {
 }
 
 wait_for_openfaas_pods() {
-  wait_for_pod openfaas app=queue-worker Queue-Worker;
-  wait_for_pod openfaas app=gateway Gateway;
-  wait_for_pod openfaas app=nats Nats;
-  wait_for_pod openfaas app=prometheus Prometheus;
-  wait_for_pod openfaas app=basic-auth-plugin Auth-Plugin;
-  wait_for_pod openfaas app=alertmanager Alertmanager;
-  wait_for_pod openfaas app=faas-idler FaaS-Idler;
+  openfaas_pods=("queue-worker" "gateway" "nats" "prometheus" "basic-auth-plugin" "alertmanager" "faas-idler");
+  
+  for i in "${openfaas_pods[@]}"
+  do
+    wait_for_pod openfaas app=$i $i;
+  done
 }
 
 vm_driver="$1"
@@ -75,7 +74,7 @@ install() {
     echo "export OPENFAAS_GRAFANA_URL=$(kubectl -n openfaas get svc grafana -o jsonpath="{.spec.ports[0].nodePort}")" >> ../output/openfaas.txt;
     print_with_color "OpenFaaS was successfully installed!";
     print_with_color "Add Environment Variables with:";
-    print_with_color "source output/openfaas.txt";
+    print_with_color "source ../output/openfaas.txt";
     print_with_color "Login with:";
     print_with_color "echo -n \$PASSWORD | faas-cli login -g \$OPENFAAS_URL -u admin --password-stdin";
 }

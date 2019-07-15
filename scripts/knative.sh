@@ -12,7 +12,7 @@ wait_for_pod() {
 }
 
 wait_for_gloo_pods() {
-  gloo_pods = ( "clusteringress-proxy" "discovery" "gateway" "gateway-proxy" "gloo" "ingress" "ingress-proxy" );
+  gloo_pods=("clusteringress-proxy" "discovery" "gateway" "gateway-proxy" "gloo" "ingress" "ingress-proxy");
 
   for i in "${gloo_pods[@]}"
   do
@@ -22,8 +22,8 @@ wait_for_gloo_pods() {
 
 wait_for_knative_pods() {
 
-  serving_pods = ( "activator" "autoscaler" "controller" "networking-certmanager" "webhook" );
-  monitoring_pods = ( "grafana" "kube-state-metrics" "node-exporter" "prometheus" );
+  serving_pods=("activator" "autoscaler" "controller" "networking-certmanager" "webhook");
+  monitoring_pods=("grafana" "kube-state-metrics" "node-exporter" "prometheus");
 
   # knative-serving
   for i in "${serving_pods[@]}"
@@ -51,7 +51,7 @@ install() {
   print_with_color "Installing the Knative CLI...";
   install_cli;
   print_with_color "Setting up Minikube...";
-  minikube start --memory=8192 --cpus=4 --vm-driver=$vm_driver -p knative_gloo   --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
+  minikube start --memory=16384 --cpus=4 --vm-driver=$vm_driver -p knative_gloo   --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
   print_with_color "Installing Gloo...";
   curl -sL https://run.solo.io/gloo/install | sh;
   print_with_color "Setting knative to the desired minikube profile...";
@@ -66,6 +66,7 @@ install() {
   print_with_color "Installing knative-monitoring components..."
   kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring-metrics-prometheus.yaml;
   wait_for_knative_pods
+  print_with_color "Knative was successfully installed!"
 }
 
 install;

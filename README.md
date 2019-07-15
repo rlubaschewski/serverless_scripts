@@ -32,7 +32,7 @@ sh openfaas.sh virtualbox
 
 After the installation is completed, add environment variables to current shell with:
 ```
-source output/openfaas.txt
+source ../output/openfaas.txt
 ```
 
 
