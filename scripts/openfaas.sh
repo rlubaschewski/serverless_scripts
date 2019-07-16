@@ -10,7 +10,7 @@ wait_for_pod() {
   NAMESPACE=$1;
   LABEL=$2;
   PODNAME=$3;
-  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != *"True"* ]]; do print_with_color "Waiting for $PODNAME Pod to be ready..." && sleep 10; done
+  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do print_with_color "Waiting for $PODNAME Pod to be ready..." && sleep 10; done
 }
 
 wait_for_openfaas_pods() {
