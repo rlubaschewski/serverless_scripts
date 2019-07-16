@@ -75,6 +75,7 @@ install() {
   --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring.yaml
   kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/serving.yaml --selector networking.knative.dev/certificate-provider!=cert-manager --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring.yaml
   wait_for_knative_pods;
+  mkdir -p ../output;
   echo "export KNATIVE_GATEWAY=\$(minikube ip):\$(kubectl get svc \$INGRESSGATEWAY --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')" >> ../output/knative.txt;
   print_with_color "Knative was successfully installed!";
   print_with_color "Add Environmental Variables with:"
