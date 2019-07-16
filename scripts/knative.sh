@@ -77,6 +77,8 @@ install() {
   wait_for_knative_pods;
   echo "export KNATIVE_GATEWAY=\$(minikube ip):\$(kubectl get svc \$INGRESSGATEWAY --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')" >> ../output/knative.txt;
   print_with_color "Knative was successfully installed!";
+  print_with_color "Add Environmental Variables with:"
+  print_with_color "source ../output/knative.txt";
 }
 
 install;
