@@ -14,13 +14,15 @@ cd serverless_scripts/scripts
 sh ${desired_framework}.sh ${desired_driver}
 ```
 
-See a list of the available drivers [here](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver)
+See a list of the available drivers [here](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver).
 
 Example:
 
 ```
 sh openfaas.sh virtualbox
 ```
+
+Not passing any Hypervisor driver will set the driver to ```virtualbox```.
 
 ## OpenFaaS
 
@@ -34,16 +36,22 @@ After the installation is completed, add environment variables to current shell 
 ```
 source ../output/openfaas.txt
 ```
+Then you can login with:
+```
+echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
+```
+## Knative
 
+Start up a Cluster with Knative by passing your desired hypervisor driver
 
-## Knative with Gloo
-
-Start up a Cluster with Knative using Gloo by passing your desired hypervisor driver
+**Note:** Knative is known to run slowly and inconsistently using virtualbox for MacOS Users. Recommendation: use [Hyperkit](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver)
 
 Example:
 ```shell
-sh knative.sh virtualbox
+sh knative.sh hyperkit
 ```
+After the installation is completed, add environment variables to current shell with:
 
-See a list of the available drivers [here](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver)
-
+```
+source ../output/knative.txt
+```

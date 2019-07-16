@@ -1,3 +1,5 @@
+#!/bin/bash
+
 print_with_color() {
   GREEN='\033[0;32m';
   NOCOLOR='\033[0m';
@@ -8,22 +10,29 @@ wait_for_pod() {
   NAMESPACE=$1;
   LABEL=$2;
   PODNAME=$3;
-  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do print_with_color "Waiting for $PODNAME Pod to be ready..." && sleep 10; done
+  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" && 
+  $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True" ]] 
+  do 
+    print_with_color "waiting for $PODNAME pod to be ready...";
+    sleep 10; 
+  done
 }
 
-wait_for_gloo_pods() {
-  gloo_pods=("clusteringress-proxy" "discovery" "gateway" "gateway-proxy" "gloo" "ingress" "ingress-proxy");
+wait_for_istio_pods() {
+  istio_pods=("citadel" "galley" "ingressgateway" "pilot" "sidecar-injector" "cluster-local-gateway");
 
-  for i in "${gloo_pods[@]}"
+  for i in "${istio_pods[@]}"
   do
-    wait_for_pod gloo-system gloo=$i $i;
+    wait_for_pod istio-system istio=$i $i;
   done
+  wait_for_pod istio-system istio-mixer-type=policy policy;
+  wait_for_pod istio-system istio-mixer-type=telemetry telemetry;
 }
 
 wait_for_knative_pods() {
 
-  serving_pods=("activator" "autoscaler" "controller" "networking-certmanager" "webhook");
-  monitoring_pods=("grafana" "kube-state-metrics" "node-exporter" "prometheus");
+  serving_pods=("activator" "autoscaler" "controller" "networking-istio" "webhook");
+  monitoring_pods=("elasticsearch-logging" "grafana" "kibana-logging" "kube-state-metrics" "node-exporter" "prometheus");
 
   # knative-serving
   for i in "${serving_pods[@]}"
@@ -36,7 +45,6 @@ wait_for_knative_pods() {
   do
     wait_for_pod knative-monitoring app=$i $i;
   done
-
 }
 
 vm_driver="$1"
@@ -51,22 +59,24 @@ install() {
   print_with_color "Installing the Knative CLI...";
   install_cli;
   print_with_color "Setting up Minikube...";
-  minikube start --memory=16384 --cpus=4 --vm-driver=$vm_driver -p knative_gloo   --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
-  print_with_color "Installing Gloo...";
-  curl -sL https://run.solo.io/gloo/install | sh;
+  minikube start --vm-driver=${vm_driver:-hyperkit} --memory=16384 --cpus=6 -p knative --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
   print_with_color "Setting knative to the desired minikube profile...";
-  minikube profile knative_gloo;
-  print_with_color "Adding Gloo to path...";
-  export PATH=$HOME/.gloo/bin:$PATH;
-  print_with_color "Installing gloo and knative on kubernetes cluster...";
-  glooctl install ingress;
-  glooctl install gateway;
-  glooctl install knative;
-  wait_for_gloo_pods;
-  print_with_color "Installing knative-monitoring components..."
-  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring-metrics-prometheus.yaml;
-  wait_for_knative_pods
-  print_with_color "Knative was successfully installed!"
+  minikube profile knative;
+  print_with_color "Installing Istio...";
+  kubectl apply --filename https://raw.githubusercontent.com/knative/serving/v0.7.0/third_party/istio-1.1.7/istio-crds.yaml &&
+  curl -L https://raw.githubusercontent.com/knative/serving/v0.7.0/third_party/istio-1.1.7/istio.yaml \
+  | sed 's/LoadBalancer/NodePort/' \
+  | kubectl apply --filename -
+  kubectl label namespace default istio-injection=enabled;
+  wait_for_istio_pods;
+  print_with_color "Installing Knative...";
+  kubectl apply --selector knative.dev/crd-install=true \
+  --filename https://github.com/knative/serving/releases/download/v0.7.0/serving.yaml \
+  --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring.yaml
+  kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/serving.yaml --selector networking.knative.dev/certificate-provider!=cert-manager --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring.yaml
+  wait_for_knative_pods;
+  echo "export KNATIVE_GATEWAY=\$(minikube ip):\$(kubectl get svc \$INGRESSGATEWAY --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')" >> ../output/knative.txt;
+  print_with_color "Knative was successfully installed!";
 }
 
 install;

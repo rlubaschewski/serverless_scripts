@@ -10,7 +10,7 @@ wait_for_pod() {
   NAMESPACE=$1;
   LABEL=$2;
   PODNAME=$3;
-  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do print_with_color "Waiting for $PODNAME Pod to be ready..." && sleep 10; done
+  while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != *"True"* ]]; do print_with_color "Waiting for $PODNAME Pod to be ready..." && sleep 10; done
 }
 
 wait_for_openfaas_pods() {
@@ -26,7 +26,7 @@ vm_driver="$1"
 
 install() {
     print_with_color "Setting up Minikube...";
-    minikube start --vm-driver="$vm_driver" -p openfaas;
+    minikube start --vm-driver=${vm_driver:-virtualbox} -p openfaas;
     print_with_color "Setting Minikube profile to openfaas...";
     minikube profile openfaas
     print_with_color "Installing the OpenFaaS CLI...";

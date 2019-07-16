@@ -15,6 +15,12 @@ This will deploy a function to Kubernetes which scales to zero and auto-scales b
 
 Function Invocation is not working with gloo using the CLI command. Possible with ```curl```
 [Reference](https://knative.dev/docs/install/knative-with-gloo/)
+
+Get the Domain of your function with:
+```
+kubectl get ksvc hello --output=custom-columns=NAME:.metadata.name,DOMAIN:.status.domain
+```
+Then invoke the function with:
 ```
 curl -H "Host: hello.default.example.com" ${GATEWAY_URL}
 ```
