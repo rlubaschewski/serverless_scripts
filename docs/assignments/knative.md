@@ -5,6 +5,14 @@ For completing the assignments Knative offers:
 - Kubernetes Custom Ressource Definitions (CRDs) which can be accessed via the Kubernetes CLI ```kubectl```
 - a community Command Line Interface ```knctl```
 
+### References
+
+[Knative Docs](https://knative.dev/docs/)
+[Knative Community CLI (knctl)](https://github.com/cppforlife/knctl)
+[Grafana](https://github.com/knative/docs/blob/master/docs/serving/accessing-metrics.md)
+[Kibana](https://knative.dev/docs/serving/accessing-logs/)
+[Request Traces](https://knative.dev/docs/serving/accessing-traces/)
+
 ### 1. Deployment
 
 Deploy a function in a language of your choice to your local cluster. Make sure that scaling to zero is enabled on that function. The AutoScaling for the function should range from minimum 0 to maximum 10 Replicas. 

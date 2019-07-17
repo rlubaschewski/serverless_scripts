@@ -6,6 +6,13 @@ For completing the assignments OpenFaaS offers:
 - a Command Line Interface (access via ```faas-cli```)
 - a REST API ([Swagger Docs](https://github.com/openfaas/faas/tree/master/api-docs), access the api with your ```$OPENFAAS_URL``` and your desired endpoint)
 
+### References
+
+[OpenFaaS Docs](https://docs.openfaas.com/)
+[faas-idler (scale to zero)](https://github.com/openfaas-incubator/faas-idler)
+[faas-cli](https://github.com/openfaas/faas-cli)
+[grafana](https://github.com/stefanprodan/faas-grafana)
+
 ### 1. Deployment
 
 Deploy a function in a language of your choice to your local cluster. Make sure that scaling to zero is enabled on that function. The AutoScaling for the function should range from minimum 1 to maximum 10 Replicas. 
