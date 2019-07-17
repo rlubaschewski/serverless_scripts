@@ -11,7 +11,9 @@ git clone https://github.com/rlubaschewski/serverless_scripts.git
 
 cd serverless_scripts/scripts
 
-sh ${desired_framework}.sh ${desired_driver}
+chmod +x openfaas.sh
+
+./${desired_framework}.sh ${desired_driver}
 ```
 
 See a list of the available drivers [here](https://kubernetes.io/docs/setup/learning-environment/minikube/#specifying-the-vm-driver).
@@ -19,7 +21,8 @@ See a list of the available drivers [here](https://kubernetes.io/docs/setup/lear
 Example:
 
 ```
-sh openfaas.sh hyperkit
+chmod +x ./openfaas.sh
+./openfaas.sh
 ```
 
 Not passing any hypervisor driver will default the driver to ```hyperkit```
@@ -30,7 +33,8 @@ Not passing any hypervisor driver will default the driver to ```hyperkit```
 
 Installation:
 ```shell
-sh openfaas.sh virtualbox
+chmod +x openfaas.sh
+./openfaas.sh
 ```
 
 After the installation is completed, add environment variables to current shell with:
@@ -49,7 +53,8 @@ Start up a Cluster with Knative by passing your desired hypervisor driver
 
 Example:
 ```shell
-sh knative.sh hyperkit
+chmod +x knative.sh
+./knative.sh
 ```
 After the installation is completed, add environment variables to current shell with:
 
