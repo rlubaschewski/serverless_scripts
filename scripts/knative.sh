@@ -1,11 +1,5 @@
 #!/bin/bash
 
-print_with_color() {
-  GREEN='\033[0;32m';
-  NOCOLOR='\033[0m';
-  echo "${GREEN}$1${NOCOLOR}";
-}
-
 wait_for_pod() {
   NAMESPACE=$1;
   LABEL=$2;
@@ -13,7 +7,7 @@ wait_for_pod() {
   while [[ $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" && 
   $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True True" ]] 
   do 
-    print_with_color "waiting for $PODNAME pod to be ready...";
+    echo "waiting for $PODNAME pod to be ready...";
     sleep 10; 
   done
 }
@@ -56,20 +50,20 @@ install_cli() {
 }
 
 install() {
-  print_with_color "Installing the Knative CLI...";
+  echo "Installing the Knative CLI...";
   install_cli;
-  print_with_color "Setting up Minikube...";
+  echo "Setting up Minikube...";
   minikube start --vm-driver=${vm_driver:-hyperkit} --memory=16384 --cpus=6 -p knative --extra-config=apiserver.enable-admission-plugins="LimitRanger,NamespaceExists,NamespaceLifecycle,ResourceQuota,ServiceAccount,DefaultStorageClass,MutatingAdmissionWebhook";
-  print_with_color "Setting knative to the desired minikube profile...";
+  echo "Setting knative to the desired minikube profile...";
   minikube profile knative;
-  print_with_color "Installing Istio...";
+  echo "Installing Istio...";
   kubectl apply --filename https://raw.githubusercontent.com/knative/serving/v0.7.0/third_party/istio-1.1.7/istio-crds.yaml &&
   curl -L https://raw.githubusercontent.com/knative/serving/v0.7.0/third_party/istio-1.1.7/istio.yaml \
   | sed 's/LoadBalancer/NodePort/' \
   | kubectl apply --filename -
   kubectl label namespace default istio-injection=enabled;
   wait_for_istio_pods;
-  print_with_color "Installing Knative...";
+  echo "Installing Knative...";
   kubectl apply --selector knative.dev/crd-install=true \
   --filename https://github.com/knative/serving/releases/download/v0.7.0/serving.yaml \
   --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring.yaml
@@ -77,14 +71,14 @@ install() {
   wait_for_knative_pods;
   mkdir -p ../output;
   echo "export KNATIVE_GATEWAY=\$(minikube ip):\$(kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.spec.ports[?(@.port==80)].nodePort}')" >> ../output/knative.txt;
-  print_with_color "Installing ELK Stack..."
+  echo "Installing ELK Stack..."
   kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring-logs-elasticsearch.yaml;
   kubectl label nodes --all beta.kubernetes.io/fluentd-ds-ready="true";
-  print_with_color "Installing Zipkin...";
+  echo "Installing Zipkin...";
   kubectl apply --filename https://github.com/knative/serving/releases/download/v0.7.0/monitoring-tracing-zipkin.yaml;
-  print_with_color "Knative was successfully installed!";
-  print_with_color "Add Environmental Variables with:"
-  print_with_color "source ../output/knative.txt";
+  echo "Knative was successfully installed!";
+  echo "Add Environmental Variables with:"
+  echo "source ../output/knative.txt";
 }
 
 install;
