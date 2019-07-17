@@ -1,5 +1,7 @@
 ## Knative Assignments
 
+Complete the survey [here](https://docs.google.com/forms/d/e/1FAIpQLSdP-Sd-CBBGkNBc_sZtsF9Tp39ytKKH7FWh86oMNS6VQydjXg/viewform?usp=sf_link)
+
 For completing the assignments Knative offers:
 
 - Kubernetes Custom Ressource Definitions (CRDs) which can be accessed via the Kubernetes CLI ```kubectl```

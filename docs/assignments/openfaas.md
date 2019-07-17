@@ -1,5 +1,7 @@
 ## OpenFaaS Assignments
 
+Complete the survey [here](https://docs.google.com/forms/d/e/1FAIpQLSdYn0lkUgtiH7VqgNXOnachXUJaqtCJtYcibiPCeUL6yYMHDw/viewform?usp=sf_link)
+
 For completing the assignments OpenFaaS offers:
 
 - a Graphical User Interface (access via your ```$OPENFAAS_URL```, login with ```admin``` and your ```$PASSWORD```)
