@@ -11,9 +11,13 @@ For completing the assignments OpenFaaS offers:
 ### References
 
 [OpenFaaS Docs](https://docs.openfaas.com/)
+
 [faas-idler (scale to zero)](https://github.com/openfaas-incubator/faas-idler)
+
 [faas-cli](https://github.com/openfaas/faas-cli)
+
 [grafana](https://github.com/stefanprodan/faas-grafana)
+
 
 ### 1. Deployment
 

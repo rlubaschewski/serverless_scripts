@@ -45,6 +45,8 @@ Then you can login with:
 ```
 echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
 ```
+Complete the [assignments](https://github.com/rlubaschewski/serverless_scripts/blob/master/docs/assignments/openfaas.md) and fill out the [survey](https://docs.google.com/forms/d/e/1FAIpQLSdYn0lkUgtiH7VqgNXOnachXUJaqtCJtYcibiPCeUL6yYMHDw/viewform?usp=sf_link).
+
 ## Knative
 
 Start up a Cluster with Knative by passing your desired hypervisor driver
@@ -61,3 +63,5 @@ After the installation is completed, add environment variables to current shell 
 ```
 source ../output/knative.txt
 ```
+
+Complete the [assignments](https://github.com/rlubaschewski/serverless_scripts/blob/master/docs/assignments/knative.md) and fill out the [survey](https://docs.google.com/forms/d/e/1FAIpQLSdP-Sd-CBBGkNBc_sZtsF9Tp39ytKKH7FWh86oMNS6VQydjXg/viewform).

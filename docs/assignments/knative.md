@@ -10,9 +10,13 @@ For completing the assignments Knative offers:
 ### References
 
 [Knative Docs](https://knative.dev/docs/)
+
 [Knative Community CLI (knctl)](https://github.com/cppforlife/knctl)
+
 [Grafana](https://github.com/knative/docs/blob/master/docs/serving/accessing-metrics.md)
+
 [Kibana](https://knative.dev/docs/serving/accessing-logs/)
+
 [Request Traces](https://knative.dev/docs/serving/accessing-traces/)
 
 ### 1. Deployment
