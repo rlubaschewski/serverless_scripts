@@ -1,7 +1,7 @@
 # Shell Scrips for starting up Minikube with Serverless Frameworks on MacOS
 
 In order for the scripts to work make sure to have 
-- a hypervisor installed (for example [virtualbox](https://www.virtualbox.org/wiki/Downloads))
+- a hypervisor installed (for example [Hyperkit](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver))
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos) installed
 - [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube) installed (make sure to use minikube 1.2.0 or higher)
 
@@ -19,10 +19,11 @@ See a list of the available drivers [here](https://kubernetes.io/docs/setup/lear
 Example:
 
 ```
-sh openfaas.sh virtualbox
+sh openfaas.sh hyperkit
 ```
 
-Not passing any Hypervisor driver will set the driver to ```virtualbox```.
+Not passing any hypervisor driver will default the driver to ```hyperkit```
+
 
 ## OpenFaaS
 

@@ -30,7 +30,7 @@ vm_driver="$1"
 
 install() {
     print_with_color "Setting up Minikube...";
-    minikube start --vm-driver=${vm_driver:-virtualbox} -p openfaas;
+    minikube start --vm-driver=${vm_driver:-hyperkit} -p openfaas;
     print_with_color "Setting Minikube profile to openfaas...";
     minikube profile openfaas
     print_with_color "Installing the OpenFaaS CLI...";
