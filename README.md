@@ -2,8 +2,23 @@
 
 In order for the scripts to work make sure to have 
 - a hypervisor installed (for example [Hyperkit](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver))
+
+Install Hyperkit:
+```brew install hyperkit```
+
+Hyperkit driver for Minikube:
+```
+curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \ && sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/
+```
+
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos) installed
+```
+brew install kubernetes-cli
+```
 - [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube) installed (make sure to use minikube 1.2.0 or higher)
+```
+brew cask install minikube
+```
 
 To setup Minikube with your desired framework:
 ```
