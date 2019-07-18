@@ -29,7 +29,7 @@ git clone https://github.com/rlubaschewski/serverless_scripts.git
 
 cd serverless_scripts/scripts
 
-chmod +x openfaas.sh
+chmod +x ${desired_framework}.sh
 
 ./${desired_framework}.sh ${desired_driver}
 ```
