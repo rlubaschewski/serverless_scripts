@@ -4,7 +4,10 @@ In order for the scripts to work make sure to have
 - a hypervisor installed (for example [Hyperkit](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver))
 
 Install Hyperkit:
-```brew install hyperkit```
+
+```
+brew install hyperkit
+```
 
 Hyperkit driver for Minikube:
 ```
