@@ -11,7 +11,8 @@ brew install hyperkit
 
 Hyperkit driver for Minikube:
 ```
-curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \ && sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/
+curl -LO https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit \
+&& sudo install -o root -g wheel -m 4755 docker-machine-driver-hyperkit /usr/local/bin/
 ```
 
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos) installed
